@@ -1,9 +1,15 @@
 cmake_minimum_required(VERSION 3.15)
 project(meu_projeto C)
 
-set_property(TARGET meu_app PROPERTY C_STANDARD 89)
-set_property(TARGET meu_app PROPERTY C_STANDARD_REQUIRED ON)
-set_property(TARGET meu_app PROPERTY C_EXTENSIONS OFF)
+set(CMAKE_C_STANDARD 90)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+
+# ----------------------------------------
+# Opções de build para debug
+# ----------------------------------------
+set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Encontra o pacote algorithms_with_c
 find_package(algorithms_with_c REQUIRED)
