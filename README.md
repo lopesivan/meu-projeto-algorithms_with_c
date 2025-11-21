@@ -1,33 +1,56 @@
-Pronto! Criei um Makefile no estilo que você pediu. 
+Sim! É bem simples:Pronto! Agora você pode:
 
-## Como usar:
+## 1. Remover o `conanfile.txt`:
 
 ```bash
-# Ver comandos disponíveis
-make help
-
-# Compilar e executar
-make all && make run
-
-# Ou passo a passo
-make init      # Instala dependências
-make config    # Configura CMake
-make build     # Compila
-make run       # Executa
-
-# Limpar e reconstruir
-make rebuild
-
-# Ver informações
-make info
+rm conanfile.txt
 ```
 
-## Principais diferenças do original:
+## 2. Usar o `conanfile.py`:
 
-- **Mais simples**: Conan 2 coloca arquivos direto em `build/`, não precisa da estrutura `build/build/Release/generators`
-- **Cores e estilo**: Mantive o visual bonito com cores e caixinhas
-- **Mensagens claras**: Indica o que está acontecendo em cada etapa
-- **Validações**: Checa se os passos anteriores foram executados antes de continuar
+Os comandos continuam os mesmos:
 
-Agora é só rodar `make all` e depois `make run`! 🚀
+```bash
+make clean
+make init
+make config
+make build
+make run
+```
+
+## Vantagens do `conanfile.py`:
+
+1. **Mais flexível**: Pode adicionar lógica customizada
+2. **Melhor para projetos complexos**: Pode definir opções, configurações condicionais, etc.
+3. **Mesmo resultado**: Funciona exatamente igual ao `.txt`
+
+## Exemplo mais completo (opcional):
+
+Se quiser adicionar mais funcionalidades:
+
+```python
+from conan import ConanFile
+from conan.tools.cmake import CMake, cmake_layout
+
+class MeuProjetoConan(ConanFile):
+    name = "meu_projeto"
+    version = "0.1.0"
+    
+    settings = "os", "compiler", "build_type", "arch"
+    generators = "CMakeDeps", "CMakeToolchain"
+    
+    def requirements(self):
+        self.requires("algorithms_with_c/1.0.0@ivancarlos/stable")
+        # self.requires("outro_pacote/1.0.0")  # Adicione mais se precisar
+    
+    def layout(self):
+        cmake_layout(self)
+    
+    def build(self):
+        cmake = CMake(self)
+        cmake.configure()
+        cmake.build()
+```
+
+Teste aí e veja se funciona! 👍
 
