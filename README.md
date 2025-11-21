@@ -35,17 +35,17 @@ from conan.tools.cmake import CMake, cmake_layout
 class MeuProjetoConan(ConanFile):
     name = "meu_projeto"
     version = "0.1.0"
-    
+
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeDeps", "CMakeToolchain"
-    
+
     def requirements(self):
         self.requires("algorithms_with_c/1.0.0@ivancarlos/stable")
         # self.requires("outro_pacote/1.0.0")  # Adicione mais se precisar
-    
+
     def layout(self):
         cmake_layout(self)
-    
+
     def build(self):
         cmake = CMake(self)
         cmake.configure()
@@ -125,7 +125,7 @@ o Conan pega o build/ dele e põe dentro do --output-folder → resultado:
 
 pasta de build: build/build/Release
 
-toolchain: build/build/Release/generators/conan_toolchain.cmake 
+toolchain: build/build/Release/generators/conan_toolchain.cmake
 
 
 
@@ -382,24 +382,32 @@ E para rodar:
 É possível também, só pra ficar claro:
 
 # 1. Conan
+```{bash}
 conan install . \
     --output-folder=build \
     --build=missing \
     -s build_type=Release
+```
 
 # 2. CMake configure (ajustando paths conforme o que o Conan gerar)
+```{bash}
 cmake -S . -B build_dir_certo \
     -DCMAKE_TOOLCHAIN_FILE=build_dir_certo/generators/conan_toolchain.cmake \
     -DCMAKE_BUILD_TYPE=Release
+```
 
 # 3. CMake build
+```{bash}
 cmake --build build_dir_certo --config Release
+```
 
 Mas aí você volta praticamente ao que o seu Makefile já faz.
 O atalho mais confortável, sem Makefile, é:
 
+```{bash}
 conan install . --output-folder=build --build=missing -s build_type=Release
 conan build . --build-folder=build
+```
 ```
 
 
